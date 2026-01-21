@@ -1,0 +1,7 @@
+{
+  "image": "10.10.71.6:8080/petalinux_2025.1/hsc_0_3:v1",
+  "remoteUser": "ubuntu", //,
+  "postCreateCommand": [".devcontainer/post_create.sh"],
+  "postStartCommand": [".devcontainer/post_start.sh"],
+  "postAttachCommand": [".devcontainer/post_attach.sh"]
+}

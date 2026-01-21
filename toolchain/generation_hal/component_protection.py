@@ -72,7 +72,7 @@ if __name__ == "__main__":
     except KeyError as e:
         print(f"Missing configuration section: {e}")
     except ValidationError as e:
-        print("Configuration validation failed:")
+        print(f"Configuration validation failed: {e}")
         print(e)
 
     

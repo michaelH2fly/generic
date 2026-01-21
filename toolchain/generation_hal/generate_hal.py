@@ -48,7 +48,7 @@ def parse_data_from_component_definition_files(
                             raw_data = yaml.safe_load(f)
                             parsed_component = Component(**raw_data)
                             component_data.append(parsed_component)
-                            
+
                             print(f"Info: parsed component", parsed_component.name)
                         except yaml.YAMLError as e:
                             print(f"YAML parsing failed for %s: %s", yaml_file, e)
