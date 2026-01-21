@@ -1,0 +1,43 @@
+name: Busch Hydrogen Recirculation Pump
+component_type: Recirculation Pump
+subsystem: ANODE
+ctrl_subsystem: AX
+
+component_protections:
+  - name: UL_inletTemperature_recirculation_pump
+    observed_signal: testsignal
+    type_monitor: UL
+    caution_monitor:
+        threshold: 3
+        debounce_time: 2.5
+    caution_action: VOID
+    warning_monitor:
+        threshold: 5
+        debounce_time: 2
+    warning_sd_type: NORMAL_SD
+    is_active_warning2: true
+    warning2_monitor:
+        threshold: 6
+        debounce_time: 2
+    warning2_sd_type: FAST_SD
+    access_level: TESTER
+    description: test
+
+  - name: LL_inletPressure_recirculation_pump
+    observed_signal: testsignal
+    type_monitor: LL
+    caution_monitor:
+        threshold: 0.9
+        debounce_time: 2.5
+    caution_action: VOID
+    warning_monitor:
+        threshold: 0.8
+        debounce_time: 2
+    warning_sd_type: NORMAL_SD
+    is_active_warning2: true
+    warning2_monitor:
+        threshold: 0.7
+        debounce_time: 2
+    warning2_sd_type: FAST_SD
+    access_level: TESTER
+    description: test

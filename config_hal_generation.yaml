@@ -1,0 +1,5 @@
+paths:
+    definition_components: 
+      - definition_components      
+      - definition_components/subfolder1
+      - definition_components/subfolder2
