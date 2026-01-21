@@ -3,5 +3,8 @@ paths:
       - definition_components      
       - definition_components/subfolder1
       - definition_components/subfolder2
+    definition_generic_functions:
+      - definition_generic/def_generic_functions_cathodje.yaml
+      
     code_generation_target:
       hal: hal_code_gen

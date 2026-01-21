@@ -1,43 +1,42 @@
 import yaml
+from generic_function import GenericFunction
 from pathlib import Path
-
-from component import Component
 from pydantic import ValidationError
 
-file_config_generation = "config_generation.yaml"
+path_generation_config = "config_generation.yaml"
 
+def load_generation_config():
 
-def load_config_hal_generation():
-
-    with open(file_config_generation, 'r') as file:
+    with open(path_generation_config, 'r') as file:
 
         config_generation = yaml.safe_load(file)
 
     return config_generation
-    
-def parse_data_from_component_definition_files(
+
+
+def parse_data_from_generic_function_files(
         config
         ) -> list:
 
-    # fetch the paths from definition components
-    component_definition_paths = config["paths"]["definition_components"]
+    # init generic function list
+    generic_functions_data = []
 
-    # init component list
-    component_data = []
+    # extract relevant paths from config
+    generic_function_def_paths = config["paths"]["definition_generic_functions"]
 
-    # loop over fetched component definitions paths
-    for comp_def_path in component_definition_paths:
+    # loop over generic function definition paths
+    for generic_function_def_path in generic_function_def_paths:
 
-        # parse it to a conform path
-        comp_def_path = Path(comp_def_path)
+        # convert it to pathlib path
+        generic_function_def_path = Path(generic_function_def_path)
 
-        # jump over not exisiting directories
-        if not comp_def_path.is_dir():
-            print(f"Warning: {comp_def_path} is not a directory, skipping.")
+        # jump over not existing directories
+        if not generic_function_def_path.is_dir():
             continue
-        
-        # for different yaml endings
-        for suffix in ["*.yaml", ".yml"]:
+
+        # for different yml endings
+        for suffix in ["*.yaml", "*.yml"]:
+
             # loop over all files in directory with the appropriate suffix
             for yaml_file in comp_def_path.rglob(suffix):
                 try:
@@ -46,10 +45,10 @@ def parse_data_from_component_definition_files(
                         # parse the yaml content convert it to the a Component object - append it to component list
                         try:
                             raw_data = yaml.safe_load(f)
-                            parsed_component = Component(**raw_data)
-                            component_data.append(parsed_component)
+                            parsed_generic_function = GenericFunction(**raw_data)
+                            generic_functions_data.append(parsed_generic_function)
 
-                            print(f"Info: parsed component", parsed_component.name)
+                            print(f"Info: parsed component", parsed_generic_function.name)
                         except yaml.YAMLError as e:
                             print(f"YAML parsing failed for %s: %s", yaml_file, e)
                             expect
@@ -63,18 +62,18 @@ def parse_data_from_component_definition_files(
                 except Exception as e:
                     print(f"Failed to parse {yaml_file}: {e}")
         
-    return component_data
+    return generic_functions_data
 
-def generate_hal():
 
-    # load the configuration for the hal generation
-    config = load_config_hal_generation()
 
-    component_data = parse_data_from_component_definition_files(config)
+def generate_generic():
+
+    config = load_generation_config()
+
+    generic_function_data = parse_data_from_generic_function_files(config)
+
+    print(generic_function_data)
 
 if __name__ == "__main__":
 
-    
-
-    generate_hal()
-
+    generate_generic()
