@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from enum import Enum
-import data_models
 
 class TypeMonitor(str, Enum):
     UL = "UL"

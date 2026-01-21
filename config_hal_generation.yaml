@@ -3,3 +3,5 @@ paths:
       - definition_components      
       - definition_components/subfolder1
       - definition_components/subfolder2
+    code_generation_target:
+      hal: hal_code_gen
