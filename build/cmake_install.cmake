@@ -44,6 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("/workspaces/generic/build/_deps/googletest-build/cmake_install.cmake")
   include("/workspaces/generic/build/CXX/cmake_install.cmake")
 
 endif()

@@ -1,0 +1,5 @@
+if(EXISTS "/workspaces/generic/build/CXX/ComponentProtection/test/MonitorTests[1]_tests.cmake")
+  include("/workspaces/generic/build/CXX/ComponentProtection/test/MonitorTests[1]_tests.cmake")
+else()
+  add_test(MonitorTests_NOT_BUILT MonitorTests_NOT_BUILT)
+endif()

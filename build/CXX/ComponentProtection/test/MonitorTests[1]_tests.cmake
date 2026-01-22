@@ -1,0 +1,5 @@
+add_test([=[MonitorTest.MonitorUpperLimitInstantiation]=]  /workspaces/generic/build/CXX/ComponentProtection/test/MonitorTests [==[--gtest_filter=MonitorTest.MonitorUpperLimitInstantiation]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[MonitorTest.MonitorUpperLimitInstantiation]=]  PROPERTIES WORKING_DIRECTORY /workspaces/generic/build/CXX/ComponentProtection/test SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[MonitorTest.MonitorLowerLimitInstantiation]=]  /workspaces/generic/build/CXX/ComponentProtection/test/MonitorTests [==[--gtest_filter=MonitorTest.MonitorLowerLimitInstantiation]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[MonitorTest.MonitorLowerLimitInstantiation]=]  PROPERTIES WORKING_DIRECTORY /workspaces/generic/build/CXX/ComponentProtection/test SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  MonitorTests_TESTS MonitorTest.MonitorUpperLimitInstantiation MonitorTest.MonitorLowerLimitInstantiation)
