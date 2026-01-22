@@ -15,31 +15,26 @@ def load_config_hal_generation():
 
     return config_generation
     
-def parse_data_from_component_definition_files(
-        config
-        ) -> list:
-
-    # fetch the paths from definition components
-    component_definition_paths = config["paths"]["definition_components"]
+def parse_components_from_definition_directory(directories) -> list:
 
     # init component list
     component_data = []
 
     # loop over fetched component definitions paths
-    for comp_def_path in component_definition_paths:
+    for directory in directories:
 
         # parse it to a conform path
-        comp_def_path = Path(comp_def_path)
+        directory = Path(directory)
 
         # jump over not exisiting directories
-        if not comp_def_path.is_dir():
-            print(f"Warning: {comp_def_path} is not a directory, skipping.")
+        if not directory.is_dir():
+            print(f"Warning: {directory} is not a directory, skipping.")
             continue
         
         # for different yaml endings
         for suffix in ["*.yaml", ".yml"]:
             # loop over all files in directory with the appropriate suffix
-            for yaml_file in comp_def_path.rglob(suffix):
+            for yaml_file in directory.rglob(suffix):
                 try:
                     # open the file with reading permission
                     with yaml_file.open("r", encoding="utf-8") as f:
@@ -49,10 +44,9 @@ def parse_data_from_component_definition_files(
                             parsed_component = Component(**raw_data)
                             component_data.append(parsed_component)
 
-                            print(f"Info: parsed component", parsed_component.name)
+                            print(f"Info: parsed component: {parsed_component.name}")
                         except yaml.YAMLError as e:
-                            print(f"YAML parsing failed for %s: %s", yaml_file, e)
-                            expect
+                            print(f"YAML parsing failed for {yaml_file}: {e}")                            
                         except KeyError as e:
                             print(f"Missing configuration section: {e}")
                         except ValidationError as e:
@@ -67,10 +61,13 @@ def parse_data_from_component_definition_files(
 
 def generate_hal():
 
-    # load the configuration for the hal generation
     config = load_config_hal_generation()
+    
+    paths = config["paths"]["definition_components"]
 
-    component_data = parse_data_from_component_definition_files(config)
+    component_data = parse_components_from_definition_directory(paths)
+
+    print(component_data)
 
 if __name__ == "__main__":
 
