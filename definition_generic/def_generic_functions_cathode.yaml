@@ -1,101 +1,87 @@
-
-# air mass flows 
-generic_function:
-    name: air mass flow net
+generic_functions:
+  - name: air mass flow net
     abbrev: F_airmass_net
-    symbol: m/t
-    unit: g/s
-    type: input
+    symbol: mpt
+    unit: gps
+    function_type: input
     description: net air massflow supplied to stack
 
-generic_function:
-    name: air mass flow gross
+  - name: air mass flow gross
     abbrev: F_airmass_gross
-    symbol: m/t
-    unit: g/s
-    type: input
+    symbol: mpt
+    unit: gps
+    function_type: input
     description: gross air massflow flowing through stack
 
-# compressor inlet
-generic_function:
-    name: compressor inlet temperature
+  - name: compressor inlet temperature
     abbrev: T_compressor_in
     symbol: T
     unit: degC
-    type: input
+    function_type: input
     description: air temperature at the inlet of the compressor
 
-generic_function:
-    name: compressor inlet pressure
+  - name: compressor inlet pressure
     abbrev: p_compressor_in
     symbol: p
     unit: bara
-    type: input
+    function_type: input
     description: air pressure at the inlet of the compressor
 
 # functions of compressor 
-generic_function:
-    name: compressor rpm
+  - name: compressor rpm
     abbrev: n_compressor
     symbol: n
     unit: rpm
-    type: input
+    function_type: input
     description: measured rpm of compressor
 
-generic_function:
-    name: compressor temperature
+  - name: compressor temperature
     abbrev: T_compressor
-    symbol: degC
-    unit: T
-    type: input
+    symbol: T
+    unit: degC
+    function_type: input
     description: measured temperature
 
-generic_function:
-    name: compressor rpm
+  - name: compressor rpm
     abbrev: n_compressor
     symbol: n
     unit: rpm
-    type: output
+    function_type: output
     description: set rpm request for compressor
 
 # functions of compressor inverter
-generic_function:
-    name: compressor inverter temperature
+  - name: compressor inverter temperature
     abbrev: T_compressor_inverter
-    symbol: degC
-    unit: T
-    type: input
+    symbol: T
+    unit: degC
+    function_type: input
     description: measured temperature of compressor inverter
 
-generic_function:
-    name: compressor inverter supply voltage
+  - name: compressor inverter supply voltage
     abbrev: U_supply_compressor_inverter
-    symbol: V
-    unit: T
-    type: input
+    symbol: U
+    unit: V
+    function_type: input
     description: compressor inverter supply voltage
 
-generic_function:
-    name: compressor inverter supply current
+  - name: compressor inverter supply current
     abbrev: I_supply_compressor_inverter
-    symbol: A
-    unit: T
-    type: input
+    symbol: I
+    unit: A
+    function_type: input
     description: compressor inverter supply current
 
 # compressor outlet
-generic_function:
-    name: compressor outlet temperature
+  - name: compressor outlet temperature
     abbrev: T_compressor_outlet
     symbol: T
     unit: degC
-    type: input
+    function_type: input
     description: air temperature at the outlet of the compressor
 
-generic_function:
-    name: compressor outlet pressure
+  - name: compressor outlet pressure
     abbrev: p_compressor_out
     symbol: p
     unit: bara
-    type: input
+    function_type: input
     description: air pressure at the outlet of the compressor

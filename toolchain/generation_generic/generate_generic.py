@@ -1,5 +1,5 @@
 import yaml
-from generic_function import GenericFunction
+from generic_function import GenericFunction, GenericFunctionList
 from pathlib import Path
 from pydantic import ValidationError
 
@@ -14,53 +14,44 @@ def load_generation_config():
     return config_generation
 
 
-def parse_data_from_generic_function_files(
-        config
-        ) -> list:
+def parse_generic_functions_from_definition_files(file_paths: Path) -> list:
 
     # init generic function list
     generic_functions_data = []
 
-    # extract relevant paths from config
-    generic_function_def_paths = config["paths"]["definition_generic_functions"]
-
     # loop over generic function definition paths
-    for generic_function_def_path in generic_function_def_paths:
+    for yaml_file_path in file_paths:
 
         # convert it to pathlib path
-        generic_function_def_path = Path(generic_function_def_path)
+        yaml_file_path = Path(yaml_file_path)
 
         # jump over not existing directories
-        if not generic_function_def_path.is_dir():
+        if not yaml_file_path.exists():
+            print(f"Warning: The file {yaml_file_path} does not exist.")
             continue
 
-        # for different yml endings
-        for suffix in ["*.yaml", "*.yml"]:
-
-            # loop over all files in directory with the appropriate suffix
-            for yaml_file in comp_def_path.rglob(suffix):
+        try:
+            # open the file with reading permission
+            with yaml_file_path.open("r", encoding="utf-8") as f:
+                # parse the yaml content convert it to the a Component object - append it to component list
                 try:
-                    # open the file with reading permission
-                    with yaml_file.open("r", encoding="utf-8") as f:
-                        # parse the yaml content convert it to the a Component object - append it to component list
-                        try:
-                            raw_data = yaml.safe_load(f)
-                            parsed_generic_function = GenericFunction(**raw_data)
-                            generic_functions_data.append(parsed_generic_function)
+                    raw_data = yaml.safe_load(f)
+                    print(raw_data)
+                    parsed_generic_function = GenericFunctionList(**raw_data)
+                    generic_functions_data.append(parsed_generic_function)
 
-                            print(f"Info: parsed component", parsed_generic_function.name)
-                        except yaml.YAMLError as e:
-                            print(f"YAML parsing failed for %s: %s", yaml_file, e)
-                            expect
-                        except KeyError as e:
-                            print(f"Missing configuration section: {e}")
-                        except ValidationError as e:
-                            print(f"Configuration validation failed: {e}")
-                        except Exception as e:
-                            print(f"Unexpected error reading %s", {e})
-                    
+                    #print(f"Info: parsed component", parsed_generic_function.name)
+                except yaml.YAMLError as e:
+                    print(f"YAML parsing failed for %s: %s", yaml_file_path, e)                
+                except KeyError as e:
+                    print(f"Missing configuration section: {e}")
+                except ValidationError as e:
+                    print(f"Configuration validation failed: {e}")
                 except Exception as e:
-                    print(f"Failed to parse {yaml_file}: {e}")
+                    print(f"Unexpected error reading %s", {e})
+            
+        except Exception as e:
+            print(f"Failed to parse {yaml_file_path}: {e}")
         
     return generic_functions_data
 
@@ -69,8 +60,10 @@ def parse_data_from_generic_function_files(
 def generate_generic():
 
     config = load_generation_config()
+    print(config)
+    def_file_paths = config["paths"]["definition_generic_functions"]
 
-    generic_function_data = parse_data_from_generic_function_files(config)
+    generic_function_data = parse_generic_functions_from_definition_files(def_file_paths)
 
     print(generic_function_data)
 

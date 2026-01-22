@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from enum import Enum
+from typing import List
 
 class PhysicalSymbol(str,Enum):
     n = "n"
@@ -7,6 +8,7 @@ class PhysicalSymbol(str,Enum):
     T = "T"
     U = "U"
     I = "I"
+    mpt = "mpt"
 
 class Unit(str, Enum):
     rpm     = "rpm"
@@ -17,6 +19,7 @@ class Unit(str, Enum):
     V       = "V"
     A       = "A"
     mA      = "mA"
+    gps     = "gps"
 
 class GenericFunctionType(str, Enum):
     input = "input"
@@ -30,6 +33,8 @@ class GenericFunction(BaseModel):
     function_type: GenericFunctionType
     description: str
 
+class GenericFunctionList(BaseModel):
+    generic_functions: List[GenericFunction]
 
 
 
