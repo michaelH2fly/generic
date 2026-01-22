@@ -1,0 +1,2 @@
+/usr/bin/ar qc libComponentProtection.a CMakeFiles/ComponentProtection.dir/src/monitor.cc.o CMakeFiles/ComponentProtection.dir/src/component_protection.cc.o
+/usr/bin/ranlib libComponentProtection.a
