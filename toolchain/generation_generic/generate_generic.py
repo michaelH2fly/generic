@@ -36,11 +36,13 @@ def parse_generic_functions_from_definition_files(file_paths: Path) -> list:
                 # parse the yaml content convert it to the a Component object - append it to component list
                 try:
                     raw_data = yaml.safe_load(f)
-                    print(raw_data)
-                    parsed_generic_function = GenericFunctionList(**raw_data)
-                    generic_functions_data.append(parsed_generic_function)
 
-                    #print(f"Info: parsed component", parsed_generic_function.name)
+                    parsed_generic_functions = GenericFunctionList(**raw_data)
+
+                    for generic_function in parsed_generic_functions.generic_functions:
+                        
+                        generic_functions_data.append(generic_function)
+
                 except yaml.YAMLError as e:
                     print(f"YAML parsing failed for %s: %s", yaml_file_path, e)                
                 except KeyError as e:
@@ -60,12 +62,9 @@ def parse_generic_functions_from_definition_files(file_paths: Path) -> list:
 def generate_generic():
 
     config = load_generation_config()
-    print(config)
     def_file_paths = config["paths"]["definition_generic_functions"]
 
     generic_function_data = parse_generic_functions_from_definition_files(def_file_paths)
-
-    print(generic_function_data)
 
 if __name__ == "__main__":
 

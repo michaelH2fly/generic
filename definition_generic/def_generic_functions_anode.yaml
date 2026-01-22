@@ -1,0 +1,14 @@
+generic_functions:
+  - name: hydrogen pressure shut-off inlet
+    abbrev: p_shutoff_anode_in
+    symbol: p
+    unit: bara
+    function_type: input
+    description: asdf
+
+  - name: hydrogen pressure control valve inlet
+    abbrev: p_ctrlValve_inlet
+    symbol: p
+    unit: bara
+    function_type: input
+    description: asdf
