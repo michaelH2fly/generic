@@ -3,5 +3,5 @@
 dockerimage/petalinux_sdk/
 
 # Build directories
-/build/
+build/
 CXX/build/
