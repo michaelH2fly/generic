@@ -1,3 +1,7 @@
 # Python venv
 .venv/
 dockerimage/petalinux_sdk/
+
+# Build directories
+build/
+CXX/build/
