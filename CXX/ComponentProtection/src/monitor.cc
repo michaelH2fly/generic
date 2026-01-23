@@ -24,19 +24,27 @@ void Monitor::SetParameter(MonitorParameter& parameter) {
 }
 
 // MonitorUpperLimit Implementation
-MonitorUpperLimit::MonitorUpperLimit(Clock& clock, MonitorParameter& parameter)
-	: Monitor(clock, parameter) {}
+MonitorUpperLimit::MonitorUpperLimit(Clock& clock, float& observed_value, MonitorParameter& parameter)
+	: Monitor(clock, observed_value, parameter) {}
 
 bool MonitorUpperLimit::IsThresholdExceeded() {
-	// Implementation for upper limit check
-	return false; // Placeholder implementation
+
+	if (observed_value_ > parameter_.threshold) {
+		return true;
+	} else {
+		return false;
+	}
+		
 }
 
 // MonitorLowerLimit Implementation
-MonitorLowerLimit::MonitorLowerLimit(Clock& clock, MonitorParameter& parameter)
-	: Monitor(clock, parameter) {}
+MonitorLowerLimit::MonitorLowerLimit(Clock& clock, float& observed_value, MonitorParameter& parameter)
+	: Monitor(clock, observed_value, parameter) {}
 
 bool MonitorLowerLimit::IsThresholdExceeded() {
-	// Implementation for lower limit check
-	return false; // Placeholder implementation
+	if (observed_value_ < parameter_.threshold) {
+		return true;
+	} else {
+		return false;
+	}	
 }

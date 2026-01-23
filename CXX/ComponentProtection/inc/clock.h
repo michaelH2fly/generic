@@ -44,7 +44,5 @@ class MockClock : public Clock {
 };
 
 
-
-
 #endif  // CXX_CLOCK_INC_CLOCK_H_
 

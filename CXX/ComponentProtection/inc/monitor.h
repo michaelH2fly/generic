@@ -26,10 +26,10 @@ class Monitor {
 	virtual ~Monitor() = default;
 
 	// Constructor with default values.
-	Monitor(Clock& clock, MonitorParameter& parameter)
+	Monitor(Clock& clock, float& observed_value, MonitorParameter& parameter)
 	    : clock_(clock),
-	      parameter_(parameter) {};
-
+	      parameter_(parameter),
+		  observed_value_(observed_value) {};
 
 	// Virtual step function (cyclic execution).
 	void Step(bool is_active, bool do_reset);
@@ -47,22 +47,23 @@ class Monitor {
 
 	protected:
 	MonitorParameter& parameter_;
-	MonitorState state_ = MonitorState::Inactive;
-
+	MonitorState state_ = MonitorState::Inactive;	
 	std::chrono::time_point<std::chrono::steady_clock> debounce_start_time_;
+	float& observed_value_;
 
 };
 
 // Upper limit monitor - triggers when value exceeds threshold.
 class MonitorUpperLimit : public Monitor {
 public:
-    MonitorUpperLimit(Clock& clock, MonitorParameter& parameter);	
+	MonitorUpperLimit(Clock& clock, float& observed_value, MonitorParameter& parameter);
+	
 	bool IsThresholdExceeded() override;
 };
 
 class MonitorLowerLimit : public Monitor {
 public:
-    MonitorLowerLimit(Clock& clock, MonitorParameter& parameter);
+    MonitorLowerLimit(Clock& clock, float& observed_value, MonitorParameter& parameter);
 	bool IsThresholdExceeded() override;
 };
 
