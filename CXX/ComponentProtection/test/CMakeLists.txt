@@ -2,7 +2,7 @@
 project(ComponentProtectionTests)
 
 # Test executable name
-set(TEST_EXECUTABLE ComponentProtectionTest)
+set(TEST_EXECUTABLE MonitorTests)
 
 # Test source files
 set(TEST_SOURCES

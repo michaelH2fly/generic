@@ -1,8 +1,13 @@
 #include "monitor.h"
 
+
+
 // Monitor Implementation
-Monitor::Monitor(float &threshold, float &debounce_time)
-	: threshold_(threshold), debounce_time_(debounce_time) {}
+//Monitor::Monitor(unsigned int &time_reference, float &threshold, float &debounce_time)
+//    : time_reference_(time_reference),
+//      threshold_(threshold),
+//      debounce_time_(debounce_time)
+//{}
 
 void Monitor::Step(bool is_active, bool do_reset) {
 	// Base implementation - can be overridden by subclasses if needed
@@ -10,34 +15,30 @@ void Monitor::Step(bool is_active, bool do_reset) {
 	(void)do_reset;   // Mark as intentionally unused
 }
 
-float Monitor::GetThreshold() const {
-	return threshold_;
+const MonitorParameter& Monitor::GetParameter() const {
+	return parameter_;
 }
 
-float Monitor::GetDebounceTime() const {
-	return debounce_time_;
-}
-
-void Monitor::SetThreshold(float threshold) {
-	threshold_ = threshold;
-}
-
-void Monitor::SetDebounceTime(float debounce_time) {
-	debounce_time_ = debounce_time;
+void Monitor::SetParameter(MonitorParameter& parameter) {
+	parameter_ = parameter;
 }
 
 // MonitorUpperLimit Implementation
-MonitorUpperLimit::MonitorUpperLimit(float &threshold, float &debounce_time)
-	: Monitor(threshold, debounce_time) {}
+MonitorUpperLimit::MonitorUpperLimit(unsigned int &time_reference, MonitorParameter& parameter)
+	: Monitor(time_reference, parameter) {}
 
-bool MonitorUpperLimit::IsThresholdExceeded(float value) const {
-	return value > threshold_;
+void MonitorUpperLimit::Step(bool is_active, bool do_reset) {
+
+	(void)is_active;
+	(void)do_reset;
 }
 
-// MonitorLowerLimit Implementation
-MonitorLowerLimit::MonitorLowerLimit(float &threshold, float &debounce_time)
-	: Monitor(threshold, debounce_time) {}
 
-bool MonitorLowerLimit::IsThresholdExceeded(float value) const {
-	return value < threshold_;
+// MonitorLowerLimit Implementation
+MonitorLowerLimit::MonitorLowerLimit(unsigned int &time_reference, MonitorParameter& parameter)
+	: Monitor(time_reference, parameter) {}
+
+void MonitorLowerLimit::Step(bool is_active, bool do_reset) {
+	(void)is_active;
+    (void)do_reset;
 }

@@ -249,19 +249,6 @@ MonitorTests/fast:
 	$(MAKE) $(MAKESILENT) -f CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/build.make CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/build
 .PHONY : MonitorTests/fast
 
-#=============================================================================
-# Target rules for targets named ComponentProtectionTest
-
-# Build rule for target.
-ComponentProtectionTest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ComponentProtectionTest
-.PHONY : ComponentProtectionTest
-
-# fast build rule for target.
-ComponentProtectionTest/fast:
-	$(MAKE) $(MAKESILENT) -f CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/build.make CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/build
-.PHONY : ComponentProtectionTest/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -276,7 +263,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... ComponentProtection"
-	@echo "... ComponentProtectionTest"
 	@echo "... MonitorTests"
 	@echo "... gmock"
 	@echo "... gmock_main"

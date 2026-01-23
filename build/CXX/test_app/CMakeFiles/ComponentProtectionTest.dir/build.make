@@ -76,15 +76,15 @@ CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.o: CXX/test_app/CMak
 CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.o: /workspaces/generic/CXX/test_app/main.cc
 CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.o: CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.o"
-	cd /workspaces/generic/build/CXX/test_app && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.o -MF CMakeFiles/ComponentProtectionTest.dir/main.cc.o.d -o CMakeFiles/ComponentProtectionTest.dir/main.cc.o -c /workspaces/generic/CXX/test_app/main.cc
+	cd /workspaces/generic/build/CXX/test_app && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.o -MF CMakeFiles/ComponentProtectionTest.dir/main.cc.o.d -o CMakeFiles/ComponentProtectionTest.dir/main.cc.o -c /workspaces/generic/CXX/test_app/main.cc
 
 CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ComponentProtectionTest.dir/main.cc.i"
-	cd /workspaces/generic/build/CXX/test_app && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/generic/CXX/test_app/main.cc > CMakeFiles/ComponentProtectionTest.dir/main.cc.i
+	cd /workspaces/generic/build/CXX/test_app && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/generic/CXX/test_app/main.cc > CMakeFiles/ComponentProtectionTest.dir/main.cc.i
 
 CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/main.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ComponentProtectionTest.dir/main.cc.s"
-	cd /workspaces/generic/build/CXX/test_app && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/generic/CXX/test_app/main.cc -o CMakeFiles/ComponentProtectionTest.dir/main.cc.s
+	cd /workspaces/generic/build/CXX/test_app && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/generic/CXX/test_app/main.cc -o CMakeFiles/ComponentProtectionTest.dir/main.cc.s
 
 # Object files for target ComponentProtectionTest
 ComponentProtectionTest_OBJECTS = \

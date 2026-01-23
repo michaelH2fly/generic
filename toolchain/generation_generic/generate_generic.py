@@ -57,8 +57,6 @@ def parse_generic_functions_from_definition_files(file_paths: Path) -> list:
         
     return generic_functions_data
 
-
-
 def generate_generic():
 
     config = load_generation_config()

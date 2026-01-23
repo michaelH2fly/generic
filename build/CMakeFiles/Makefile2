@@ -87,22 +87,18 @@ clean: CXX/clean
 
 # Recursive "all" directory target.
 CXX/all: CXX/ComponentProtection/all
-CXX/all: CXX/test_app/all
 .PHONY : CXX/all
 
 # Recursive "codegen" directory target.
 CXX/codegen: CXX/ComponentProtection/codegen
-CXX/codegen: CXX/test_app/codegen
 .PHONY : CXX/codegen
 
 # Recursive "preinstall" directory target.
 CXX/preinstall: CXX/ComponentProtection/preinstall
-CXX/preinstall: CXX/test_app/preinstall
 .PHONY : CXX/preinstall
 
 # Recursive "clean" directory target.
 CXX/clean: CXX/ComponentProtection/clean
-CXX/clean: CXX/test_app/clean
 .PHONY : CXX/clean
 
 #=============================================================================
@@ -145,25 +141,6 @@ CXX/ComponentProtection/test/preinstall:
 # Recursive "clean" directory target.
 CXX/ComponentProtection/test/clean: CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/clean
 .PHONY : CXX/ComponentProtection/test/clean
-
-#=============================================================================
-# Directory level rules for directory CXX/test_app
-
-# Recursive "all" directory target.
-CXX/test_app/all: CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/all
-.PHONY : CXX/test_app/all
-
-# Recursive "codegen" directory target.
-CXX/test_app/codegen: CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/codegen
-.PHONY : CXX/test_app/codegen
-
-# Recursive "preinstall" directory target.
-CXX/test_app/preinstall:
-.PHONY : CXX/test_app/preinstall
-
-# Recursive "clean" directory target.
-CXX/test_app/clean: CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/clean
-.PHONY : CXX/test_app/clean
 
 #=============================================================================
 # Directory level rules for directory _deps/googletest-build
@@ -238,7 +215,7 @@ _deps/googletest-build/googletest/clean: _deps/googletest-build/googletest/CMake
 _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=9,10 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=7,8 "Built target gmock"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -255,7 +232,7 @@ gmock: _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/rule
 # codegen rule for target.
 _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=9,10 "Finished codegen for target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=7,8 "Finished codegen for target gmock"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/codegen
 
 # clean rule for target.
@@ -271,7 +248,7 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletes
 _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=11,12 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=9,10 "Built target gmock_main"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -288,7 +265,7 @@ gmock_main: _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/rule
 # codegen rule for target.
 _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=11,12 "Finished codegen for target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=9,10 "Finished codegen for target gmock_main"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/codegen
 
 # clean rule for target.
@@ -303,7 +280,7 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean:
 _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=13,14 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=11,12 "Built target gtest"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -320,7 +297,7 @@ gtest: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/rule
 # codegen rule for target.
 _deps/googletest-build/googletest/CMakeFiles/gtest.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=13,14 "Finished codegen for target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=11,12 "Finished codegen for target gtest"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest.dir/codegen
 
 # clean rule for target.
@@ -335,7 +312,7 @@ _deps/googletest-build/googletest/CMakeFiles/gtest.dir/clean:
 _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=15,16 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=13,14 "Built target gtest_main"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -352,7 +329,7 @@ gtest_main: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/rule
 # codegen rule for target.
 _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=15,16 "Finished codegen for target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=13,14 "Finished codegen for target gtest_main"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/codegen
 
 # clean rule for target.
@@ -401,7 +378,7 @@ CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/all: _deps/googletest-b
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/all: CXX/ComponentProtection/CMakeFiles/ComponentProtection.dir/all
 	$(MAKE) $(MAKESILENT) -f CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/build.make CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/depend
 	$(MAKE) $(MAKESILENT) -f CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/build.make CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=6,7,8 "Built target MonitorTests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=4,5,6 "Built target MonitorTests"
 .PHONY : CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/all
 
 # Build rule for subdir invocation for target.
@@ -418,45 +395,13 @@ MonitorTests: CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/rule
 # codegen rule for target.
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/build.make CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=6,7,8 "Finished codegen for target MonitorTests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=4,5,6 "Finished codegen for target MonitorTests"
 .PHONY : CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/codegen
 
 # clean rule for target.
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/build.make CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/clean
 .PHONY : CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/clean
-
-#=============================================================================
-# Target rules for target CXX/test_app/CMakeFiles/ComponentProtectionTest.dir
-
-# All Build rule for target.
-CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/all: CXX/ComponentProtection/CMakeFiles/ComponentProtection.dir/all
-	$(MAKE) $(MAKESILENT) -f CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/build.make CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/build.make CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=4,5 "Built target ComponentProtectionTest"
-.PHONY : CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/all
-
-# Build rule for subdir invocation for target.
-CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/generic/build/CMakeFiles 5
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/generic/build/CMakeFiles 0
-.PHONY : CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/rule
-
-# Convenience name for target.
-ComponentProtectionTest: CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/rule
-.PHONY : ComponentProtectionTest
-
-# codegen rule for target.
-CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/build.make CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=4,5 "Finished codegen for target ComponentProtectionTest"
-.PHONY : CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/codegen
-
-# clean rule for target.
-CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/build.make CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/clean
-.PHONY : CXX/test_app/CMakeFiles/ComponentProtectionTest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

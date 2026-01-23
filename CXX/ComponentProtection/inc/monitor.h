@@ -10,6 +10,11 @@ enum class MonitorState {
 	Active = 3
 };
 
+struct MonitorParameter {
+	float threshold;
+	float debounce_time;
+};
+
 // Monitor configuration with threshold and debounce time.
 class Monitor {
 	public:
@@ -17,43 +22,40 @@ class Monitor {
 	virtual ~Monitor() = default;
 
 	// Constructor with default values.
-	Monitor(float &threshold, float &debounce_time);
+	Monitor(unsigned int &time_reference, MonitorParameter& parameter)
+	    : time_reference_(time_reference),
+	      parameter_(parameter) {};
 
 
 	// Virtual step function (cyclic execution).
 	virtual void Step(bool is_active, bool do_reset);
 
 	// Getters - normal functions (same behavior for all subclasses).
-	float GetThreshold() const;
-	float GetDebounceTime() const;
-
+	const MonitorParameter& GetParameter() const;
 	// Setters - normal functions (same behavior for all subclasses).
-	void SetThreshold(float threshold);
-	void SetDebounceTime(float debounce_time);
+	void SetParameter(MonitorParameter& parameter);
 
 	// Check if value exceeds threshold (must be implemented by derived classes).
-	virtual bool IsThresholdExceeded(float value) const = 0;
 
-	private:
-	MonitorState state_ = MonitorState::Inactive;
+	private:	
+	unsigned int& time_reference_;
 
 	protected:
-	float& threshold_;
-	float& debounce_time_;
+	MonitorParameter& parameter_;
+	MonitorState state_ = MonitorState::Inactive;
 };
 
 // Upper limit monitor - triggers when value exceeds threshold.
 class MonitorUpperLimit : public Monitor {
-	public:
-	MonitorUpperLimit(float &threshold, float &debounce_time);
-	bool IsThresholdExceeded(float value) const override;
+public:
+    MonitorUpperLimit(unsigned int &time_reference, MonitorParameter& parameter);
+	void Step(bool is_active, bool do_reset) override;
 };
 
-// Lower limit monitor - triggers when value falls below threshold.
 class MonitorLowerLimit : public Monitor {
-	public:
-	MonitorLowerLimit(float &threshold, float &debounce_time);
-	bool IsThresholdExceeded(float value) const override;
+public:
+    MonitorLowerLimit(unsigned int &time_reference, MonitorParameter& parameter);
+	void Step(bool is_active, bool do_reset) override;
 };
 
 #endif  // CXX_COMPONENT_PROTECTION_INC_MONITOR_H_

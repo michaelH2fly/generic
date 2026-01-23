@@ -53,11 +53,3 @@
 /workspaces/generic/build/CXX/ComponentProtection/test/CMakeFiles/install.dir
 /workspaces/generic/build/CXX/ComponentProtection/test/CMakeFiles/install/local.dir
 /workspaces/generic/build/CXX/ComponentProtection/test/CMakeFiles/install/strip.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/ComponentProtectionTest.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/test.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/edit_cache.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/rebuild_cache.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/list_install_components.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/install.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/install/local.dir
-/workspaces/generic/build/CXX/test_app/CMakeFiles/install/strip.dir

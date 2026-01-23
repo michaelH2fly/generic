@@ -76,29 +76,29 @@ CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.o: CXX/
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.o: /workspaces/generic/CXX/ComponentProtection/test/monitor_test.cc
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.o: CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.o"
-	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.o -MF CMakeFiles/MonitorTests.dir/monitor_test.cc.o.d -o CMakeFiles/MonitorTests.dir/monitor_test.cc.o -c /workspaces/generic/CXX/ComponentProtection/test/monitor_test.cc
+	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.o -MF CMakeFiles/MonitorTests.dir/monitor_test.cc.o.d -o CMakeFiles/MonitorTests.dir/monitor_test.cc.o -c /workspaces/generic/CXX/ComponentProtection/test/monitor_test.cc
 
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MonitorTests.dir/monitor_test.cc.i"
-	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/generic/CXX/ComponentProtection/test/monitor_test.cc > CMakeFiles/MonitorTests.dir/monitor_test.cc.i
+	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/generic/CXX/ComponentProtection/test/monitor_test.cc > CMakeFiles/MonitorTests.dir/monitor_test.cc.i
 
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/monitor_test.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MonitorTests.dir/monitor_test.cc.s"
-	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/generic/CXX/ComponentProtection/test/monitor_test.cc -o CMakeFiles/MonitorTests.dir/monitor_test.cc.s
+	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/generic/CXX/ComponentProtection/test/monitor_test.cc -o CMakeFiles/MonitorTests.dir/monitor_test.cc.s
 
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.o: CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/flags.make
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.o: /workspaces/generic/CXX/ComponentProtection/test/component_protection_test.cc
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.o: CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/generic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.o"
-	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.o -MF CMakeFiles/MonitorTests.dir/component_protection_test.cc.o.d -o CMakeFiles/MonitorTests.dir/component_protection_test.cc.o -c /workspaces/generic/CXX/ComponentProtection/test/component_protection_test.cc
+	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.o -MF CMakeFiles/MonitorTests.dir/component_protection_test.cc.o.d -o CMakeFiles/MonitorTests.dir/component_protection_test.cc.o -c /workspaces/generic/CXX/ComponentProtection/test/component_protection_test.cc
 
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MonitorTests.dir/component_protection_test.cc.i"
-	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/generic/CXX/ComponentProtection/test/component_protection_test.cc > CMakeFiles/MonitorTests.dir/component_protection_test.cc.i
+	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/generic/CXX/ComponentProtection/test/component_protection_test.cc > CMakeFiles/MonitorTests.dir/component_protection_test.cc.i
 
 CXX/ComponentProtection/test/CMakeFiles/MonitorTests.dir/component_protection_test.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MonitorTests.dir/component_protection_test.cc.s"
-	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/generic/CXX/ComponentProtection/test/component_protection_test.cc -o CMakeFiles/MonitorTests.dir/component_protection_test.cc.s
+	cd /workspaces/generic/build/CXX/ComponentProtection/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/generic/CXX/ComponentProtection/test/component_protection_test.cc -o CMakeFiles/MonitorTests.dir/component_protection_test.cc.s
 
 # Object files for target MonitorTests
 MonitorTests_OBJECTS = \
