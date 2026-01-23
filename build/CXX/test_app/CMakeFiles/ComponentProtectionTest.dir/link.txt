@@ -1,1 +1,0 @@
-/usr/bin/g++ -Wl,--dependency-file=CMakeFiles/ComponentProtectionTest.dir/link.d CMakeFiles/ComponentProtectionTest.dir/main.cc.o -o ComponentProtectionTest  ../ComponentProtection/libComponentProtection.a

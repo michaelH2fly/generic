@@ -1,1 +1,0 @@
-/usr/bin/g++ -g -Wl,--dependency-file=CMakeFiles/MonitorTests.dir/link.d CMakeFiles/MonitorTests.dir/monitor_test.cc.o CMakeFiles/MonitorTests.dir/component_protection_test.cc.o -o MonitorTests  ../libComponentProtection.a ../../../lib/libgtest.a ../../../lib/libgtest_main.a ../../../lib/libgtest.a

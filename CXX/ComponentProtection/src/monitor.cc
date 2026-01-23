@@ -1,5 +1,5 @@
 #include "monitor.h"
-
+#include "clock.h"
 
 
 // Monitor Implementation
@@ -24,21 +24,19 @@ void Monitor::SetParameter(MonitorParameter& parameter) {
 }
 
 // MonitorUpperLimit Implementation
-MonitorUpperLimit::MonitorUpperLimit(unsigned int &time_reference, MonitorParameter& parameter)
-	: Monitor(time_reference, parameter) {}
+MonitorUpperLimit::MonitorUpperLimit(Clock& clock, MonitorParameter& parameter)
+	: Monitor(clock, parameter) {}
 
-void MonitorUpperLimit::Step(bool is_active, bool do_reset) {
-
-	(void)is_active;
-	(void)do_reset;
+bool MonitorUpperLimit::IsThresholdExceeded() {
+	// Implementation for upper limit check
+	return false; // Placeholder implementation
 }
 
-
 // MonitorLowerLimit Implementation
-MonitorLowerLimit::MonitorLowerLimit(unsigned int &time_reference, MonitorParameter& parameter)
-	: Monitor(time_reference, parameter) {}
+MonitorLowerLimit::MonitorLowerLimit(Clock& clock, MonitorParameter& parameter)
+	: Monitor(clock, parameter) {}
 
-void MonitorLowerLimit::Step(bool is_active, bool do_reset) {
-	(void)is_active;
-    (void)do_reset;
+bool MonitorLowerLimit::IsThresholdExceeded() {
+	// Implementation for lower limit check
+	return false; // Placeholder implementation
 }
