@@ -8,6 +8,7 @@ set(TEST_EXECUTABLE MonitorTests)
 set(TEST_SOURCES
     monitor_test.cc
     component_protection_test.cc
+    clock_test.cpp
 )
 
 # Create test executable

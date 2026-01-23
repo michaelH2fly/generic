@@ -27,7 +27,7 @@ class SteadyClock : public Clock {
 
 class MockClock : public Clock {
     public:
-    MockClock() : current_time_(std::chrono::steady_clock::now()) {}
+    MockClock(Timestamp t = Timestamp{}) : current_time_(t) {}
     ~MockClock() override = default;
     Timestamp Now() const override {
         return current_time_;
