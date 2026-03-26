@@ -9,12 +9,10 @@ MockClock mock_clock;
 // Test fixture for Monitor tests
 class MonitorTest : public::testing::Test {
 	protected:
-	// Set up test fixtures
-	//void SetUp() override {
-	//	threshold = 10.0f;
-	//	debounce_time = 1.0f;
-	//}
+
 	MockClock mock_clock_;
+	MonitorParameter parameter_{10, 2000};	
+	float observed_value_ = 0.0f;
 
 	// constructor
 	MonitorTest() 
@@ -25,19 +23,14 @@ class MonitorTest : public::testing::Test {
 		// Clean up if needed
 	}
 
-	MonitorParameter parameter_{10, 2000};	
-	float observed_value_ = 0.0f;
-
 	public:
 	
-
 	MonitorUpperLimit InitUpperLimitMonitor() {		
 		return MonitorUpperLimit(mock_clock_, observed_value_, parameter_);
 	}
 	MonitorLowerLimit InitLowerLimitMonitor() {		
 		return MonitorLowerLimit(mock_clock_, observed_value_, parameter_);
 	}
-
 };
 
 // Test infrastructure: Verify MonitorUpperLimit can be instantiated
