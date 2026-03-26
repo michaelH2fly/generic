@@ -45,6 +45,7 @@ TEST_F(MonitorTest, MonitorUpperLimitInstantiation) {
 
 	EXPECT_FLOAT_EQ(monitor.GetParameter().threshold, 10.0f);
 	EXPECT_FLOAT_EQ(monitor.GetParameter().debounce_time, 1.0f);
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
 }
 
 TEST_F(MonitorTest, MonitorLowerLimitInstantiation) {
@@ -53,6 +54,7 @@ TEST_F(MonitorTest, MonitorLowerLimitInstantiation) {
 
 	EXPECT_FLOAT_EQ(monitor.GetParameter().threshold, 10.0f);
 	EXPECT_FLOAT_EQ(monitor.GetParameter().debounce_time, 1.0f);
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
 }
 
 TEST_F(MonitorTest, MonitorParameterChange) {
@@ -98,3 +100,125 @@ TEST_F(MonitorTest, MonitorLowerLimitThresholdCheck) {
 	EXPECT_TRUE(exceeded);
 }
 
+TEST_F(MonitorTest, MonitorLLGoesActive) {
+
+	MonitorLowerLimit monitor = InitLowerLimitMonitor();
+	
+	// reminder: threshold is 10.0f
+	observed_value_ = 15.0f;
+		
+	// execute state machine
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+
+	// exceed threshold
+	observed_value_ = 5.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+	
+	// advance time within debounce time	
+	mock_clock.Advance(std::chrono::milliseconds(1900));
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+
+	// advance time to exceed debounce time
+	mock_clock.Advance(std::chrono::milliseconds(200));
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Active);
+
+	// drop below threshold again
+	observed_value_ = 15.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+}
+
+TEST_F(MonitorTest, MonitorLLGoesInactiveAfterDebounce) {
+
+	MonitorLowerLimit monitor = InitLowerLimitMonitor();
+	
+	// reminder: threshold is 10.0f
+	observed_value_ = 15.0f;
+		
+	// execute state machine
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+
+	// exceed threshold
+	observed_value_ = 5.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+	
+	// advance time within debounce time	
+	mock_clock.Advance(std::chrono::milliseconds(1900));
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+
+	// drop below threshold again
+	observed_value_ = 15.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+}
+
+TEST_F(MonitorTest, MonitorULGoesActive) {
+
+	MonitorUpperLimit monitor = InitUpperLimitMonitor();
+	
+	// reminder: threshold is 10.0f
+	observed_value_ = 5.0f;
+		
+	// execute state machine
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+
+	// exceed threshold
+	observed_value_ = 15.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+	
+	// advance time within debounce time	
+	mock_clock.Advance(std::chrono::milliseconds(1900));
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+
+	// advance time to exceed debounce time
+	mock_clock.Advance(std::chrono::milliseconds(200));
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Active);
+
+	// drop below threshold again
+	observed_value_ = 5.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+}
+
+TEST_F(MonitorTest, MonitorULGoesInactiveAfterDebounce) {
+
+	MonitorUpperLimit monitor = InitUpperLimitMonitor();
+	
+	// reminder: threshold is 10.0f
+	observed_value_ = 5.0f;
+		
+	// execute state machine
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+
+	// exceed threshold
+	observed_value_ = 15.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+	
+	// advance time within debounce time	
+	mock_clock.Advance(std::chrono::milliseconds(1900));
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Debouncing);
+
+	// advance time to exceed debounce time
+	mock_clock.Advance(std::chrono::milliseconds(200));
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Active);
+
+	// drop below threshold again
+	observed_value_ = 5.0f;
+	monitor.Update();
+	EXPECT_EQ(monitor.GetState(), MonitorState::Inactive);
+}

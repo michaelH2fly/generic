@@ -32,14 +32,16 @@ class Monitor {
 		  observed_value_(observed_value) {};
 
 	// Virtual step function (cyclic execution).
-	void Step(bool is_active, bool do_reset);
+	void Update();
 	virtual bool IsThresholdExceeded() = 0;
 
-	// Getters - normal functions (same behavior for all subclasses).
-	const MonitorParameter& GetParameter() const;
-	// Setters - normal functions (same behavior for all subclasses).
-	void SetParameter(MonitorParameter& parameter);
+	// Getters - normal functions (same behavior for all subclasses).	
+	const MonitorParameter& GetParameter();
+	MonitorState GetState(); 
 
+	// Setters - normal functions (same behavior for all subclasses).
+
+	
 	// Check if value exceeds threshold (must be implemented by derived classes).
 
 	private:	

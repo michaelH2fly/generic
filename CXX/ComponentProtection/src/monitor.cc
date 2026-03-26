@@ -9,19 +9,61 @@
 //      debounce_time_(debounce_time)
 //{}
 
-void Monitor::Step(bool is_active, bool do_reset) {
+void Monitor::Update() {
 	// Base implementation - can be overridden by subclasses if needed
-	(void)is_active;  // Mark as intentionally unused
-	(void)do_reset;   // Mark as intentionally unused
+
+	bool threshold_exceeded = IsThresholdExceeded();
+
+	switch (state_) {
+		case MonitorState::Inactive:
+			if (threshold_exceeded) {
+				// Transition to Debouncing state
+				state_ = MonitorState::Debouncing;
+				debounce_start_time_ = clock_.Now();
+			}
+			break;
+
+		case MonitorState::Debouncing:
+		
+			auto now = clock_.Now();
+			auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - debounce_start_time_).count();
+			
+			if (elapsed >= static_cast<int>(parameter_.debounce_time * 1000)) {
+					// Transition to Active state
+					state_ = MonitorState::Active;
+					break;
+			} 
+			
+			if (!threshold_exceeded) {
+				// Return to Inactive state
+				state_ = MonitorState::Inactive;
+				break;
+			} 
+									
+			break;
+
+		case MonitorState::Active:
+			if (!threshold_exceeded) {
+				// Return to Inactive state
+				state_ = MonitorState::Inactive;
+			}
+			break;
+
+		default:
+			// Invalid state - reset to Inactive
+			state_ = MonitorState::Inactive;
+			break;
+	}
 }
 
-const MonitorParameter& Monitor::GetParameter() const {
+const MonitorParameter& Monitor::GetParameter() {
 	return parameter_;
+} 
+
+MonitorState Monitor::GetState() {
+	return state_;
 }
 
-void Monitor::SetParameter(MonitorParameter& parameter) {
-	parameter_ = parameter;
-}
 
 // MonitorUpperLimit Implementation
 MonitorUpperLimit::MonitorUpperLimit(Clock& clock, float& observed_value, MonitorParameter& parameter)
