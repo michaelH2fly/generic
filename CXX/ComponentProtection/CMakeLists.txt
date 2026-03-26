@@ -6,8 +6,8 @@ set(TARGET_NAME ComponentProtection)
 
 # Source files
 set(SOURCES
-    src/monitor.cc
-    src/component_protection.cc
+    src/monitor.cpp
+    src/component_protection.cpp
 )
 
 # Header files

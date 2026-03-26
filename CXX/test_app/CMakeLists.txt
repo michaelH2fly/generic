@@ -6,7 +6,7 @@ set(EXECUTABLE_NAME ComponentProtectionTest)
 
 # Source files
 set(SOURCES
-    main.cc
+    main.cpp
 )
 
 # Create executable

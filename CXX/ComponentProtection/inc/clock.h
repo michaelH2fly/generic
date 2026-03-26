@@ -13,7 +13,7 @@ class Clock {
     Clock() = default;
     virtual ~Clock() = default;
     virtual Timestamp Now() const = 0;
-
+    
 };
 
 class SteadyClock : public Clock {

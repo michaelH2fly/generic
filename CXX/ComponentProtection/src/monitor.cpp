@@ -24,11 +24,10 @@ void Monitor::Update() {
 			break;
 
 		case MonitorState::Debouncing:
-		
-			auto now = clock_.Now();
-			auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - debounce_start_time_).count();
+		{
+			auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(clock_.Now() - debounce_start_time_).count();
 			
-			if (elapsed >= static_cast<int>(parameter_.debounce_time * 1000)) {
+			if (elapsed >= static_cast<int>(parameter_.debounce_time)) {
 					// Transition to Active state
 					state_ = MonitorState::Active;
 					break;
@@ -41,7 +40,7 @@ void Monitor::Update() {
 			} 
 									
 			break;
-
+		}
 		case MonitorState::Active:
 			if (!threshold_exceeded) {
 				// Return to Inactive state
@@ -60,8 +59,12 @@ const MonitorParameter& Monitor::GetParameter() {
 	return parameter_;
 } 
 
-MonitorState Monitor::GetState() {
+Monitor::MonitorState Monitor::GetState() {
 	return state_;
+}
+
+Clock& Monitor::GetClock() {
+	return clock_;
 }
 
 

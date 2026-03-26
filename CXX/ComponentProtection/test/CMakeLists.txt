@@ -6,9 +6,9 @@ set(TEST_EXECUTABLE MonitorTests)
 
 # Test source files
 set(TEST_SOURCES
-    monitor_test.cc
-    component_protection_test.cc
-    clock_test.cpp
+    src/monitor_test.cpp
+    src/component_protection_test.cpp
+    src/clock_test.cpp
 )
 
 # Create test executable

@@ -8,11 +8,7 @@
 // Monitor base class and derived monitor types for component protection.
 
 // monitor state enum
-enum class MonitorState {
-	Inactive = 1,
-	Debouncing = 2,
-	Active = 3
-};
+
 
 struct MonitorParameter {
 	float threshold;
@@ -22,6 +18,14 @@ struct MonitorParameter {
 // Monitor configuration with threshold and debounce time.
 class Monitor {
 	public:
+
+	enum class MonitorState : uint8_t {
+		Inactive = 1,
+		Debouncing = 2,
+		Active = 3
+	};
+
+	
 	// Virtual destructor for proper cleanup in derived classes.
 	virtual ~Monitor() = default;
 
@@ -38,6 +42,7 @@ class Monitor {
 	// Getters - normal functions (same behavior for all subclasses).	
 	const MonitorParameter& GetParameter();
 	MonitorState GetState(); 
+	Clock& GetClock();
 
 	// Setters - normal functions (same behavior for all subclasses).
 
