@@ -20,7 +20,13 @@ enum class AccessLevel {
 // Component Protection Parameters - struct-like class with public members.
 // Contains all configuration parameters for component protection thresholds,
 // actions, and access levels.
-class CPParameter {
+
+struct MonitorParameter {
+	float threshold;
+	float debounce_time;
+};
+
+class CpParameter {
 	public:
 	// Monitor thresholds and debounce times
 	float caution_threshold = 0.0f;
@@ -29,6 +35,9 @@ class CPParameter {
 	float warning_debounce_time = 0.0f;
 	float warning2_threshold = 0.0f;
 	float warning2_debounce_time = 0.0f;
+	MonitorParameter caution_parameter;
+	MonitorParameter warning_parameter;
+	MonitorParameter warning2_parameter;
 
 	// Action and shutdown configuration
 	CautionAction caution_action = CautionAction::Void;
@@ -42,10 +51,10 @@ class CPParameter {
 	std::string description = "";
 
 	// Default constructor
-	CPParameter() = default;
+	CpParameter() = default;
 
 	// Constructor with all parameters
-	CPParameter(
+	CpParameter(
 	    float caution_threshold,
 	    float caution_debounce_time,
 	    float warning_threshold,

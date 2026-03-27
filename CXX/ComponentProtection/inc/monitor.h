@@ -4,16 +4,12 @@
 #include <chrono>
 #include <cstdint>
 #include <clock.h>
+#include <cp_parameter.h>
 
 // Monitor base class and derived monitor types for component protection.
 
 // monitor state enum
 
-
-struct MonitorParameter {
-	float threshold;
-	float debounce_time;
-};
 
 // Monitor configuration with threshold and debounce time.
 class Monitor {

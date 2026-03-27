@@ -6,66 +6,195 @@
 #include "monitor.h"
 #include "cp_parameter.h"
 
-// Type of monitoring for component protection (Upper Limit or Lower Limit).
-//enum class TypeMonitor {
-//	UL,  // Upper Limit
-//	LL   // Lower Limit
-//};
-//
-//// Component protection monitoring configuration.
-//class ComponentProtection {
-//	public:
-//        // Default constructor.
-//        ComponentProtection();
-//
-//        // Full parameter constructor with unique_ptr monitors (subclass independent).
-//        ComponentProtection(
-//            const std::string& name,
-//            const std::string& observed_signal,
-//            TypeMonitor type_monitor,
-//            std::unique_ptr<Monitor> caution_monitor,
-//            std::unique_ptr<Monitor> warning_monitor,
-//            std::unique_ptr<Monitor> warning2_monitor,
-//            const CPParameter& parameters);
-//
-//        // Cyclic step function (to be called periodically).
-//        //void Step(float observed_value, bool is_active, bool do_reset);
-//
-//        // Getters for basic properties
-//        const std::string& GetName() const;
-//        const std::string& GetObservedSignal() const;
-//        TypeMonitor GetTypeMonitor() const;
-//
-//        // Getters for monitors (return base class pointers)
-//        Monitor* GetCautionMonitor() const;
-//        Monitor* GetWarningMonitor() const;
-//        Monitor* GetWarning2Monitor() const;
-//
-//        // Getter for parameters
-//        const CPParameter& GetParameters() const;
-//
-//        // Setters for basic properties
-//        void SetName(const std::string& name);
-//        void SetObservedSignal(const std::string& observed_signal);
-//        void SetTypeMonitor(TypeMonitor type_monitor);
-//
-//        // Setters for monitors
-//        void SetCautionMonitor(std::unique_ptr<Monitor> caution_monitor);
-//        void SetWarningMonitor(std::unique_ptr<Monitor> warning_monitor);
-//        void SetWarning2Monitor(std::unique_ptr<Monitor> warning2_monitor);
-//
-//        // Setter for parameters
-//        void SetParameters(const CPParameter& parameters);
-//
-//	private:
-//        std::string name_;
-//        std::string observed_signal_;
-//        TypeMonitor type_monitor_;
-//        CPParameter parameters_;
-//        std::unique_ptr<Monitor> caution_monitor_;
-//        std::unique_ptr<Monitor> warning_monitor_;
-//        std::unique_ptr<Monitor> warning2_monitor_;
-//};
-//
+template <typename MonitorType>
+class ComponentProtection {
+
+    public: 
+    
+    enum class CpLevel : int8_t {
+        Implausible = -1, 
+        Ok = 1,
+        Caution = 2,
+        Warning = 3,
+        WarningLatched = 4,
+        Warning2 = 5,
+        Warning2Latched = 6,
+        InactiveOk = 7,
+        InactiveCaution = 8,
+        InactiveWarning = 9,
+        InactiveWarningLatched = 10,
+        InactiveWarning2 = 11,
+        InactiveWarning2Latched = 12,
+    };
+
+    enum class CpType : uint8_t {
+        LowerLimit = 0,
+        UpperLimit = 1
+    };
+
+    enum class CpState : uint8_t {
+        Implausible = -1, 
+        Ok = 1,
+        Caution = 2,
+        Warning = 3,
+        WarningLatched = 4,
+        Warning2 = 5,
+        Warning2Latched = 6        
+    };
+
+    static_assert(std::is_base_of<Monitor, MonitorType>::value,
+                "MonitorType must inherit from MonitorBase");
+
+    // determine type at compile time
+    static constexpr CpType DeriveCptype() {
+        if constexpr (std::is_same_v<MonitorType, MonitorLowerLimit>) {
+            return CpType::LowerLimit;
+        } else {
+            return CpType::UpperLimit;
+        }
+    }
+
+    
+
+    // class members
+    CpLevel level_;
+    CpType type_;
+    bool is_enabled_;
+    
+    // constructor
+    ComponentProtection(Clock& clock, float& observed_value, CpParameter& parameter)
+        : parameter_(parameter),          
+          type_(DeriveCptype()),
+          level_(CpLevel::Implausible),
+          is_enabled_(false),
+          caution_monitor_(clock, observed_value, parameter.caution_parameter),
+          warning_monitor_(clock, observed_value, parameter.warning_parameter),
+          warning2_montior_(clock, observed_value, parameter.warning2_parameter) {
+
+            if (ParametersAreValid()) {
+                level_ = CpLevel::Ok;
+            } else {
+                level_ = CpLevel::Implausible;
+            }
+          };
+          
+    // deconstructor
+    ~ComponentProtection();
+   
+    // functional
+    void Update(bool do_enable, bool do_reset) {
+
+        // mutate the enable state
+        is_enabled_ = do_enable;
+
+        switch(level_) {
+            
+            case CpLevel::Implausible:
+                if (ParametersAreValid()) {level_ = CpLevel::Ok;}
+            break;
+            case CpLevel::Ok:
+
+                // check warning2 monitor
+                if (IsActive(warning2_monitor_)) level_ = CpLevel::Warning2;
+                // check warning monitor
+                if (IsActive(warning_monitor_)) level_ = CpLevel::Warning;
+                // check caution monitor
+                if (IsActive(caution_monitor_)) level_ = CpLevel::Caution;   
+
+            break;
+
+            case CpLevel::Caution:
+
+                // check warning2 monitor
+                if (IsActive(warning2_monitor_)) level_ = CpLevel::Warning2;
+                // check warning monitor
+                if (IsActive(warning_monitor_)) level_ = CpLevel::Warning;
+                // check caution monitor
+                if (IsInactive(caution_monitor_)) level_ = CpLevel::Ok;   
+                
+            break;
+
+            case CpLevel::Warning:
+
+                // check warning2 monitor
+                if (IsActive(warning2_monitor_)) level_ = CpLevel::Warning2;
+                // check warning monitor
+                if (IsInactive(warning_monitor_)) level_ = CpLevel::WarningLatched;
+
+            break;
+
+            case CpLevel::WarningLatched:
+
+            break;
+            case CpLevel::Warning2:
+            break;
+            case CpLevel::Warning2Latched:
+            break;
+            case CpLevel::InactiveOk:
+            break;
+            case CpLevel::InactiveCaution:
+            break;
+            case CpLevel::InactiveWarning:
+            break;
+            case CpLevel::InactiveWarningLatched:
+            break;
+            case CpLevel::InactiveWarning2:
+            break;
+            case CpLevel::InactiveWarning2Latched:
+            break;
+
+        }
+        
+
+    }
+    // getters
+    CpType GetType();
+    CpState GetState();
+       
+
+    private:
+
+    CpParameter parameter_;
+    MonitorType caution_monitor_;
+    MonitorType warning_monitor_;
+    MonitorType warning2_montior_; 
+
+    bool IsActive(MonitorType monitor) {
+        if (monitor.GetState() == Monitor::MonitorState::Active) {
+            return true; 
+        } else {
+            return false;
+        }
+    };
+
+    bool IsInactive(MonitorType monitor){
+        if (monitor.GetState() == Monitor::MonitorState::Inactive) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    
+    bool ParametersAreValid() {
+        
+        if (type_ == CpType::LowerLimit) {
+
+            if (parameter_.caution_parameter.threshold > parameter_.warning_parameter.threshold) {
+                return false;
+            }
+            if (parameter_.warning_parameter.threshold > parameter_.warning2_parameter.threshold) {
+                return false;
+            }            
+        } else {
+            if (parameter_.caution_parameter.threshold < parameter_.warning_parameter.threshold) {
+                return false;
+            }
+            if (parameter_.warning_parameter.threshold < parameter_.warning2_parameter.threshold) {
+                return false;
+            }
+        }
+    };
+};
+
 
 #endif  // CXX_COMPONENT_PROTECTION_INC_COMPONENT_PROTECTION_H_
