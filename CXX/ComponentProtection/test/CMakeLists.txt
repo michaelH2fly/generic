@@ -1,30 +1,25 @@
-# Google Test CMakeLists.txt
-project(ComponentProtectionTests)
+# ComponentProtection/test/CMakeLists.txt
+project(ComponentProtectionTests LANGUAGES CXX)
 
-# Test executable name
-set(TEST_EXECUTABLE MonitorTests)
-
-# Test source files
-set(TEST_SOURCES
+# 1. Define the test executable
+# It's usually better to have one runner for all your unit tests
+add_executable(cp_unit_tests
     src/monitor_test.cpp
     src/component_protection_test.cpp
     src/clock_test.cpp
 )
 
-# Create test executable
-add_executable(${TEST_EXECUTABLE} ${TEST_SOURCES})
-
-# Link against ComponentProtection library and Google Test
-target_link_libraries(${TEST_EXECUTABLE} PRIVATE
+# 2. Link against the library and GTest
+# Linking to 'ComponentProtection' automatically adds its 'inc/' folder to our path
+target_link_libraries(cp_unit_tests PRIVATE
     ComponentProtection
-    GTest::gtest
     GTest::gtest_main
 )
 
-# Include directories
-target_include_directories(${TEST_EXECUTABLE} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../inc
-)
+# 3. Local Include Directories
+# This is ONLY for mock_monitor.h
+target_include_directories(cp_unit_tests PRIVATE inc)
 
-# Register tests with CTest
-gtest_discover_tests(${TEST_EXECUTABLE})
+# 4. Discover and register tests
+include(GoogleTest)
+gtest_discover_tests(cp_unit_tests)

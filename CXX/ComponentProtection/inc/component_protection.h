@@ -32,7 +32,7 @@ class ComponentProtection {
         UpperLimit = 1
     };
 
-    enum class CpState : uint8_t {
+    enum class CpState : int8_t {
         Implausible = -1, 
         Ok = 1,
         Caution = 2,
@@ -69,7 +69,7 @@ class ComponentProtection {
           is_enabled_(false),
           caution_monitor_(clock, observed_value, parameter.caution_parameter),
           warning_monitor_(clock, observed_value, parameter.warning_parameter),
-          warning2_montior_(clock, observed_value, parameter.warning2_parameter) {
+          warning2_monitor_(clock, observed_value, parameter.warning2_parameter) {
 
             if (ParametersAreValid()) {
                 level_ = CpLevel::Ok;
@@ -79,7 +79,7 @@ class ComponentProtection {
           };
           
     // deconstructor
-    ~ComponentProtection();
+    //~ComponentProtection();
    
     // functional
     void Update(bool do_enable, bool do_reset) {
@@ -157,7 +157,7 @@ class ComponentProtection {
     CpParameter parameter_;
     MonitorType caution_monitor_;
     MonitorType warning_monitor_;
-    MonitorType warning2_montior_; 
+    MonitorType warning2_monitor_; 
 
     bool IsActive(MonitorType monitor) {
         if (monitor.GetState() == Monitor::MonitorState::Active) {
@@ -193,6 +193,7 @@ class ComponentProtection {
                 return false;
             }
         }
+        return true;
     };
 };
 

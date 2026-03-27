@@ -1,44 +1,45 @@
-# ComponentProtection library CMakeLists.txt
-project(ComponentProtection)
+cmake_minimum_required(VERSION 3.14)
+project(ComponentProtection LANGUAGES CXX)
 
-# Define library name
-set(TARGET_NAME ComponentProtection)
+# Google Style: Standardize on C++17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Source files
-set(SOURCES
+# 1. Define the library
+# Including headers in add_library helps IDEs (like VS Code) show them in the tree
+add_library(ComponentProtection 
     src/monitor.cpp
     src/component_protection.cpp
-)
-
-# Header files
-set(HEADERS
     inc/monitor.h
     inc/cp_parameter.h
     inc/component_protection.h
+    inc/clock.h
 )
 
-# Create library
-add_library(${TARGET_NAME} ${SOURCES} ${HEADERS})
-
-# Specify include directories
-target_include_directories(${TARGET_NAME} PUBLIC
+# 2. Proper Include Management
+# PUBLIC means: "I need these paths to build, and you need them to use me."
+target_include_directories(ComponentProtection PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
     $<INSTALL_INTERFACE:include>
 )
 
-# Set compiler options for Google C++ style compliance
+# 3. Compiler Alarms (Google Style compliance)
 if(MSVC)
-    target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
+    target_compile_options(ComponentProtection PRIVATE /W4 /WX)
 else()
-    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_compile_options(ComponentProtection PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 
-# Enable testing
+# 4. Logic to fetch GTest and enable tests
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+# For Windows compatibility: prevents GTest from overriding your compiler settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+FetchContent_MakeAvailable(googletest)
+
 enable_testing()
-
-# Add tests subdirectory only if GTest is found
-if(BUILD_TESTS)
-    add_subdirectory(test)
-else()
-    message(STATUS "Skipping ComponentProtection tests (Google Test not available)")
-endif()
+add_subdirectory(test)
