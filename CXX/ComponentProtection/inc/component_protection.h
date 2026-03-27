@@ -150,7 +150,28 @@ class ComponentProtection {
     // getters
     CpType GetType();
     CpState GetState();
-       
+    CpLevel GetLevel() { return level_;};
+
+    bool ParametersAreValid() {
+        
+        if (type_ == CpType::LowerLimit) {
+
+            if (parameter_.caution_parameter.threshold > parameter_.warning_parameter.threshold) {
+                return false;
+            }
+            if (parameter_.warning_parameter.threshold > parameter_.warning2_parameter.threshold) {
+                return false;
+            }            
+        } else {
+            if (parameter_.caution_parameter.threshold < parameter_.warning_parameter.threshold) {
+                return false;
+            }
+            if (parameter_.warning_parameter.threshold < parameter_.warning2_parameter.threshold) {
+                return false;
+            }
+        }
+        return true;
+    };
 
     private:
 
@@ -175,26 +196,7 @@ class ComponentProtection {
         }
     };
     
-    bool ParametersAreValid() {
-        
-        if (type_ == CpType::LowerLimit) {
-
-            if (parameter_.caution_parameter.threshold > parameter_.warning_parameter.threshold) {
-                return false;
-            }
-            if (parameter_.warning_parameter.threshold > parameter_.warning2_parameter.threshold) {
-                return false;
-            }            
-        } else {
-            if (parameter_.caution_parameter.threshold < parameter_.warning_parameter.threshold) {
-                return false;
-            }
-            if (parameter_.warning_parameter.threshold < parameter_.warning2_parameter.threshold) {
-                return false;
-            }
-        }
-        return true;
-    };
+    
 };
 
 
