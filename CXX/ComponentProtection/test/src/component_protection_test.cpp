@@ -56,10 +56,10 @@ TEST_F(ComponentProtectionTest, Parameter_Valid_UpperLimit) {
 
     MockCpUpperLimit cp_ul = InitCpUpperLimit();
 
+    std::cout << "CpType: " << static_cast<int>(cp_ul.GetType()) << std::endl;
     //EXPECT_EQ(cp.GetLevel(), MockCpUpperLimit::CpLevel::Implausible);
 
     EXPECT_EQ(cp_ul.ParametersAreValid(), true);
-
 
 }
 
@@ -68,4 +68,7 @@ TEST_F(ComponentProtectionTest, Parameter_Valid_LowerLimit) {
     MockCpLowerLimit cp_ll = InitCpLowerLimit();
 
     EXPECT_EQ(cp_ll.ParametersAreValid(), true);
+
+    std::cout << "CpType: " << static_cast<int>(cp_ll.GetType()) << std::endl;
+    //EXPECT_EQ(cp.GetLevel(), MockCpUpperLimit::CpLevel::Implausible);
 }

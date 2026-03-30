@@ -47,7 +47,7 @@ class ComponentProtection {
 
     // determine type at compile time
     static constexpr CpType DeriveCptype() {
-        if constexpr (std::is_same_v<MonitorType, MonitorLowerLimit>) {
+        if constexpr (std::is_base_of<MonitorLowerLimit, MonitorType>::value) {
             return CpType::LowerLimit;
         } else {
             return CpType::UpperLimit;
@@ -148,13 +148,13 @@ class ComponentProtection {
 
     }
     // getters
-    CpType GetType();
+    CpType GetType(void) { return type_; };
     CpState GetState();
     CpLevel GetLevel() { return level_;};
 
     bool ParametersAreValid() {
         
-        if (type_ == CpType::LowerLimit) {
+        if (type_ == CpType::UpperLimit) {
 
             if (parameter_.caution_parameter.threshold > parameter_.warning_parameter.threshold) {
                 return false;
