@@ -63,13 +63,13 @@ class ComponentProtection {
     
     // constructor
     ComponentProtection(Clock& clock, float& observed_value, CpParameter& parameter)
-        : parameter_(parameter),          
+        : level_(CpLevel::Implausible),
           type_(DeriveCptype()),
-          level_(CpLevel::Implausible),
           is_enabled_(false),
-          caution_monitor_(clock, observed_value, parameter.caution_parameter),
-          warning_monitor_(clock, observed_value, parameter.warning_parameter),
-          warning2_monitor_(clock, observed_value, parameter.warning2_parameter) {
+          parameter_(parameter),   
+          caution_monitor_(clock, observed_value, parameter_.caution_parameter),
+          warning_monitor_(clock, observed_value, parameter_.warning_parameter),
+          warning2_monitor_(clock, observed_value, parameter_.warning2_parameter) {
 
             if (ParametersAreValid()) {
                 level_ = CpLevel::Ok;
@@ -82,75 +82,16 @@ class ComponentProtection {
     //~ComponentProtection();
    
     // functional
-    void Update(bool do_enable, bool do_reset) {
-
-        // mutate the enable state
-        is_enabled_ = do_enable;
-
-        switch(level_) {
-            
-            case CpLevel::Implausible:
-                if (ParametersAreValid()) {level_ = CpLevel::Ok;}
-            break;
-            case CpLevel::Ok:
-
-                // check warning2 monitor
-                if (IsActive(warning2_monitor_)) level_ = CpLevel::Warning2;
-                // check warning monitor
-                if (IsActive(warning_monitor_)) level_ = CpLevel::Warning;
-                // check caution monitor
-                if (IsActive(caution_monitor_)) level_ = CpLevel::Caution;   
-
-            break;
-
-            case CpLevel::Caution:
-
-                // check warning2 monitor
-                if (IsActive(warning2_monitor_)) level_ = CpLevel::Warning2;
-                // check warning monitor
-                if (IsActive(warning_monitor_)) level_ = CpLevel::Warning;
-                // check caution monitor
-                if (IsInactive(caution_monitor_)) level_ = CpLevel::Ok;   
-                
-            break;
-
-            case CpLevel::Warning:
-
-                // check warning2 monitor
-                if (IsActive(warning2_monitor_)) level_ = CpLevel::Warning2;
-                // check warning monitor
-                if (IsInactive(warning_monitor_)) level_ = CpLevel::WarningLatched;
-
-            break;
-
-            case CpLevel::WarningLatched:
-
-            break;
-            case CpLevel::Warning2:
-            break;
-            case CpLevel::Warning2Latched:
-            break;
-            case CpLevel::InactiveOk:
-            break;
-            case CpLevel::InactiveCaution:
-            break;
-            case CpLevel::InactiveWarning:
-            break;
-            case CpLevel::InactiveWarningLatched:
-            break;
-            case CpLevel::InactiveWarning2:
-            break;
-            case CpLevel::InactiveWarning2Latched:
-            break;
-
-        }
-        
-
-    }
+    void Update(bool do_enable, bool do_reset);
+    
     // getters
     CpType GetType(void) { return type_; };
     CpState GetState();
     CpLevel GetLevel() { return level_;};
+    CpParameter& GetParameter() { return parameter_; };
+    MonitorType& GetCautionMonitor() { return caution_monitor_; };
+    MonitorType& GetWarningMonitor() { return warning_monitor_; };
+    MonitorType& GetWarning2Monitor() { return warning2_monitor_; };
 
     bool ParametersAreValid() {
         
@@ -175,7 +116,7 @@ class ComponentProtection {
 
     private:
 
-    CpParameter parameter_;
+    CpParameter& parameter_;
     MonitorType caution_monitor_;
     MonitorType warning_monitor_;
     MonitorType warning2_monitor_; 

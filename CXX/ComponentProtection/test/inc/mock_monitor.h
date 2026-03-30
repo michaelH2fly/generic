@@ -15,10 +15,12 @@ class MockMonitor : public BaseMonitor {
         .threshold = 2.0f, 
         .debounce_time = 2000};
 
-    explicit MockMonitor(Clock &clock, float& observed_value, MonitorParameter parameter)
+    
+
+    explicit MockMonitor(Clock &clock, float& observed_value, MonitorParameter& parameter)
         : BaseMonitor(  clock, 
                         observed_value, 
-                        kDefaultMonitorParameters) {}
+                        parameter) {}
     
     void SetState(Monitor::MonitorState state) {this->state_ = state;};
 
