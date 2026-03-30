@@ -59,12 +59,12 @@ TEST_F(ComponentProtectionTest, ComponentProtectionTest_Initialization) {
     
     // checks for upper limits CP
     EXPECT_EQ(cp_ul.ParametersAreValid(), true);
-    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
     EXPECT_EQ(cp_ul.GetType(), MockCpUpperLimit::CpType::UpperLimit);
 
     // checks for lower limits CP
     EXPECT_EQ(cp_ll.ParametersAreValid(), true);
-    EXPECT_EQ(cp_ll.GetLevel(),MockCpLowerLimit::CpLevel::Ok);
+    EXPECT_EQ(cp_ll.GetLevel(),MockCpLowerLimit::CpLevel::InactiveOk);
     EXPECT_EQ(cp_ll.GetType(), MockCpLowerLimit::CpType::LowerLimit);
 
     // Manipulation of parameter via reference
@@ -78,15 +78,14 @@ TEST_F(ComponentProtectionTest, ComponentProtectionTest_Initialization) {
     EXPECT_EQ(cp_ul.ParametersAreValid(), false);
     //EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Implausible);
 
-
 }
 
-TEST_F(ComponentProtectionTest, Check_Caution_Functionality) {
+TEST_F(ComponentProtectionTest, Check_Functionality_Caution) {
 
     MockCpUpperLimit cp_ul = InitCpUpperLimit();
 
     // expect cp-level to be OK after initialization
-    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
     
     // provoke a caution level by mocking the state of the cuaution monitor
     cp_ul.GetCautionMonitor().SetState(Monitor::MonitorState::Active);
@@ -98,5 +97,157 @@ TEST_F(ComponentProtectionTest, Check_Caution_Functionality) {
     cp_ul.Update(true, false);
     EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
 
-   
 }
+
+TEST_F(ComponentProtectionTest, Check_Functionality_Warning) {
+
+    MockCpUpperLimit cp_ul = InitCpUpperLimit();
+
+    // expect cp-level to be OK after initialization
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+    // update cp without enable
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+
+    // provoke a warning level by mocking the state of the warning monitor
+    cp_ul.GetWarningMonitor().SetState(Monitor::MonitorState::Active);
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveWarning);
+
+    // warning monitor inactive
+    cp_ul.GetWarningMonitor().SetState(Monitor::MonitorState::Inactive);
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+
+    // enable the cp
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+    
+    // warning monitor active
+    cp_ul.GetWarningMonitor().SetState(Monitor::MonitorState::Active);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning);
+
+    // warning monitor inactive
+    cp_ul.GetWarningMonitor().SetState(Monitor::MonitorState::Inactive);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::WarningLatched);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::WarningLatched);
+
+    // reset the cp and check if level goes back to OK
+    cp_ul.Update(true, true);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+    
+}
+
+TEST_F(ComponentProtectionTest, Check_Functionality_Warning2) {
+
+    MockCpUpperLimit cp_ul = InitCpUpperLimit();
+
+    // expect cp-level to be OK after initialization
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+    // update cp without enable
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+
+    // provoke a warning level by mocking the state of the warning monitor
+    cp_ul.GetWarning2Monitor().SetState(Monitor::MonitorState::Active);
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveWarning2);
+
+    // warning monitor inactive
+    cp_ul.GetWarning2Monitor().SetState(Monitor::MonitorState::Inactive);
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+
+    // enable the cp
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+    
+    // warning monitor active
+    cp_ul.GetWarning2Monitor().SetState(Monitor::MonitorState::Active);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning2);
+
+    // warning monitor inactive
+    cp_ul.GetWarning2Monitor().SetState(Monitor::MonitorState::Inactive);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning2Latched);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning2Latched);
+
+    // reset the cp and check if level goes back to OK
+    cp_ul.Update(true, true);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+    
+}
+
+TEST_F(ComponentProtectionTest, EscalatingServerity) {
+
+    MockCpUpperLimit cp_ul = InitCpUpperLimit();
+
+    // update the cp without enable
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveOk);
+
+    // enable the cp
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+
+    // provoke caution
+    cp_ul.GetCautionMonitor().SetState(Monitor::MonitorState::Active);
+    cp_ul.Update(true, false);    
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Caution);
+   
+    // escalate to warning
+    cp_ul.GetWarningMonitor().SetState(Monitor::MonitorState::Active);
+    //cp_ul.Update(true, false);    
+    cp_ul.Update(true, false); 
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning);
+
+    // escalate to warning2
+    cp_ul.GetWarning2Monitor().SetState(Monitor::MonitorState::Active);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning2);
+    
+    // set back warning 2 monitor
+    cp_ul.GetWarning2Monitor().SetState(Monitor::MonitorState::Inactive);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning2Latched);
+
+    // reset the error
+    cp_ul.Update(true, true);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning);
+
+    cp_ul.Update(true, true);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Warning);
+
+    // set back warning monitor to inactive and reset command should bring cp only to latched warning
+    cp_ul.GetWarningMonitor().SetState(Monitor::MonitorState::Inactive);
+    cp_ul.Update(true, true);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::WarningLatched);
+
+    // reset the cp and check if level goes back to OK
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::WarningLatched);
+
+    // remember caution level still active
+    cp_ul.Update(true, true);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Caution);
+
+    // enable and disable works for caution level while caution is active
+    cp_ul.Update(false, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::InactiveCaution);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Caution);
+
+    // set back caution monitor to inactive and check if level goes back to OK
+    cp_ul.GetCautionMonitor().SetState(Monitor::MonitorState::Inactive);
+    cp_ul.Update(true, false);
+    EXPECT_EQ(cp_ul.GetLevel(), MockCpUpperLimit::CpLevel::Ok);
+
+}
+
+// test for reset and disable in warning and warning2 level

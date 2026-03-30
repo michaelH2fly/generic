@@ -55,7 +55,6 @@ class ComponentProtection {
     }
 
     
-
     // class members
     CpLevel level_;
     CpType type_;
@@ -72,7 +71,7 @@ class ComponentProtection {
           warning2_monitor_(clock, observed_value, parameter_.warning2_parameter) {
 
             if (ParametersAreValid()) {
-                level_ = CpLevel::Ok;
+                EntryOk(false);                
             } else {
                 level_ = CpLevel::Implausible;
             }
@@ -83,7 +82,7 @@ class ComponentProtection {
    
     // functional    
     
-    void Update(bool do_enable, bool do_reset) {
+    void Update(bool do_enable, bool do_reset_flank) {
 
         // mutate the enable state
         is_enabled_ = do_enable;
@@ -97,14 +96,14 @@ class ComponentProtection {
             case CpLevel::Ok:
             case CpLevel::InactiveOk:
 
-                UpdateSubLevelsOk(do_enable, do_reset); 
+                UpdateSubLevelsOk(do_enable, do_reset_flank); 
 
             break;
 
             case CpLevel::Caution:
             case CpLevel::InactiveCaution:
 
-                UpdateSubLevelsCaution(do_enable, do_reset);
+                UpdateSubLevelsCaution(do_enable, do_reset_flank);
                 
             break;
 
@@ -112,7 +111,7 @@ class ComponentProtection {
             case CpLevel::WarningLatched:
             case CpLevel::InactiveWarning:
 
-                UpdateSubLevelsWarning(do_enable, do_reset);
+                UpdateSubLevelsWarning(do_enable, do_reset_flank);
 
             break;
 
@@ -120,14 +119,14 @@ class ComponentProtection {
             case CpLevel::Warning2Latched:
             case CpLevel::InactiveWarning2:
 
-                UpdateSubLevelsWarning2(do_enable, do_reset);
+                UpdateSubLevelsWarning2(do_enable, do_reset_flank);
 
             break;
            
         }
     };
 
-    void UpdateSubLevelsOk(bool do_enable, bool do_reset) {
+    void UpdateSubLevelsOk(bool do_enable, bool do_reset_flank) {
         
         switch (level_){
             case CpLevel::Ok:
@@ -162,13 +161,13 @@ class ComponentProtection {
         }
     };
 
-    void UpdateSubLevelsCaution(bool do_enable, bool do_reset) {
+    void UpdateSubLevelsCaution(bool do_enable, bool do_reset_flank) {
 
         switch (level_)
         {
             case CpLevel::Caution:
 
-                if (do_enable) level_ = CpLevel::InactiveCaution;
+                if (!do_enable) level_ = CpLevel::InactiveCaution;
                 break; 
             
             case CpLevel::InactiveCaution:
@@ -199,7 +198,7 @@ class ComponentProtection {
 
     };
 
-    void UpdateSubLevelsWarning(bool do_enable, bool do_reset) {
+    void UpdateSubLevelsWarning(bool do_enable, bool do_reset_flank) {
         
         bool do_descalate = false;
 
@@ -227,7 +226,7 @@ class ComponentProtection {
                     level_ = CpLevel::Warning;
                 }
 
-                if (do_reset) do_descalate = true;
+                if (do_reset_flank) do_descalate = true;
                 break;
             
             default:
@@ -247,7 +246,7 @@ class ComponentProtection {
         }
     };
 
-    void UpdateSubLevelsWarning2(bool do_enable, bool do_reset) {
+    void UpdateSubLevelsWarning2(bool do_enable, bool do_reset_flank) {
         
         bool do_descalate = false;
 
@@ -274,7 +273,7 @@ class ComponentProtection {
                     level_ = CpLevel::Warning;
                 }
 
-                if (do_reset) do_descalate = true;
+                if (do_reset_flank) do_descalate = true;
                 break;
             
             default:
@@ -284,7 +283,14 @@ class ComponentProtection {
          // out-warning transitions (de-escalating)
         if (do_descalate) {
             // if caution monitor is active, de-escalate to caution, otherwise de-escalate to ok
-            IsActive(caution_monitor_) ? EntryCaution(do_enable) : EntryOk(do_enable);
+
+            if (IsActive(warning_monitor_)) {
+                EntryWarning(do_enable);
+            } else if (IsActive(caution_monitor_)) {
+                EntryCaution(do_enable);
+            } else {
+                EntryOk(do_enable);
+            }
         }
 
         // out-warning transitions (escalating)
@@ -336,9 +342,7 @@ class ComponentProtection {
     CpParameter& GetParameter() { return parameter_; };
     MonitorType& GetCautionMonitor() { return caution_monitor_; };
     MonitorType& GetWarningMonitor() { return warning_monitor_; };
-    MonitorType& GetWarning2Monitor() { return warning2_monitor_; };
-
-    
+    MonitorType& GetWarning2Monitor() { return warning2_monitor_; };    
 
     bool ParametersAreValid() {
         
