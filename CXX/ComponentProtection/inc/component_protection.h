@@ -339,7 +339,8 @@ class ComponentProtection {
     CpType GetType(void) { return type_; };
     CpState GetState();
     CpLevel GetLevel() { return level_;};
-    CpParameter& GetParameter() { return parameter_; };
+    // for testing purposes, could be moved to mock class for component protection
+    CpParameter& GetParameter() { return parameter_; };    
     MonitorType& GetCautionMonitor() { return caution_monitor_; };
     MonitorType& GetWarningMonitor() { return warning_monitor_; };
     MonitorType& GetWarning2Monitor() { return warning2_monitor_; };    
@@ -386,9 +387,7 @@ class ComponentProtection {
         } else {
             return false;
         }
-    };
-    
-    
+    };    
 };
 
 
