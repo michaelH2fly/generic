@@ -11,7 +11,7 @@ class ComponentProtection {
 
     public: 
     
-    enum class CpLevel : int8_t {
+    enum class CpState : int8_t {
         Implausible = -1, 
         Ok = 1,
         Caution = 2,
@@ -22,24 +22,12 @@ class ComponentProtection {
         InactiveOk = 7,
         InactiveCaution = 8,
         InactiveWarning = 9,
-        InactiveWarningLatched = 10,
         InactiveWarning2 = 11,
-        InactiveWarning2Latched = 12,
     };
 
     enum class CpType : uint8_t {
         LowerLimit = 0,
         UpperLimit = 1
-    };
-
-    enum class CpState : int8_t {
-        Implausible = -1, 
-        Ok = 1,
-        Caution = 2,
-        Warning = 3,
-        WarningLatched = 4,
-        Warning2 = 5,
-        Warning2Latched = 6        
     };
 
     static_assert(std::is_base_of<Monitor, MonitorType>::value,
@@ -56,13 +44,13 @@ class ComponentProtection {
 
     
     // class members
-    CpLevel level_;
+    CpState state_;
     CpType type_;
     bool is_enabled_;
     
     // constructor
     ComponentProtection(Clock& clock, float& observed_value, CpParameter& parameter)
-        : level_(CpLevel::Implausible),
+        : state_(CpState::Implausible),
           type_(DeriveCptype()),
           is_enabled_(false),
           parameter_(parameter),   
@@ -73,7 +61,7 @@ class ComponentProtection {
             if (ParametersAreValid()) {
                 EntryOk(false);                
             } else {
-                level_ = CpLevel::Implausible;
+                state_ = CpState::Implausible;
             }
         };
           
@@ -87,37 +75,37 @@ class ComponentProtection {
         // mutate the enable state
         is_enabled_ = do_enable;
 
-        switch(level_) {
+        switch(state_) {
             
-            case CpLevel::Implausible:
-                if (ParametersAreValid()) {level_ = CpLevel::Ok;}
+            case CpState::Implausible:
+                if (ParametersAreValid()) {state_ = CpState::Ok;}
             break;
 
-            case CpLevel::Ok:
-            case CpLevel::InactiveOk:
+            case CpState::Ok:
+            case CpState::InactiveOk:
 
                 UpdateSubLevelsOk(do_enable, do_reset_flank); 
 
             break;
 
-            case CpLevel::Caution:
-            case CpLevel::InactiveCaution:
+            case CpState::Caution:
+            case CpState::InactiveCaution:
 
                 UpdateSubLevelsCaution(do_enable, do_reset_flank);
                 
             break;
 
-            case CpLevel::Warning:
-            case CpLevel::WarningLatched:
-            case CpLevel::InactiveWarning:
+            case CpState::Warning:
+            case CpState::WarningLatched:
+            case CpState::InactiveWarning:
 
                 UpdateSubLevelsWarning(do_enable, do_reset_flank);
 
             break;
 
-            case CpLevel::Warning2:
-            case CpLevel::Warning2Latched:
-            case CpLevel::InactiveWarning2:
+            case CpState::Warning2:
+            case CpState::Warning2Latched:
+            case CpState::InactiveWarning2:
 
                 UpdateSubLevelsWarning2(do_enable, do_reset_flank);
 
@@ -128,17 +116,17 @@ class ComponentProtection {
 
     void UpdateSubLevelsOk(bool do_enable, bool do_reset_flank) {
         
-        switch (level_){
-            case CpLevel::Ok:
+        switch (state_){
+            case CpState::Ok:
 
                 // for disable set level to InactiveOk
-                if (!do_enable) level_ = CpLevel::InactiveOk;                
+                if (!do_enable) state_ = CpState::InactiveOk;                
                 break;
 
-            case CpLevel::InactiveOk:
+            case CpState::InactiveOk:
 
                 // enable Component Protection
-                if (do_enable) level_ = CpLevel::Ok;
+                if (do_enable) state_ = CpState::Ok;
                 break;
 
             default:
@@ -163,16 +151,16 @@ class ComponentProtection {
 
     void UpdateSubLevelsCaution(bool do_enable, bool do_reset_flank) {
 
-        switch (level_)
+        switch (state_)
         {
-            case CpLevel::Caution:
+            case CpState::Caution:
 
-                if (!do_enable) level_ = CpLevel::InactiveCaution;
+                if (!do_enable) state_ = CpState::InactiveCaution;
                 break; 
             
-            case CpLevel::InactiveCaution:
+            case CpState::InactiveCaution:
 
-                if (do_enable) level_ = CpLevel::Caution;
+                if (do_enable) state_ = CpState::Caution;
                 break;
             
             default:
@@ -202,28 +190,28 @@ class ComponentProtection {
         
         bool do_descalate = false;
 
-        switch (level_)
+        switch (state_)
         {                       
-            case CpLevel::InactiveWarning:
+            case CpState::InactiveWarning:
 
                 // cp gets enabled
-                if (do_enable) level_ = CpLevel::Warning;
+                if (do_enable) state_ = CpState::Warning;
 
                 // warning monitor gets inactive
                 if (IsInactive(warning_monitor_)) do_descalate = true;
                 
                 break;
 
-            case CpLevel::Warning:
+            case CpState::Warning:
 
                 // warning monitor gets inactive
-                if (IsInactive(warning_monitor_)) level_ = CpLevel::WarningLatched;
+                if (IsInactive(warning_monitor_)) state_ = CpState::WarningLatched;
                 break; 
 
-            case CpLevel::WarningLatched:
+            case CpState::WarningLatched:
 
                 if (IsActive(warning_monitor_)) {
-                    level_ = CpLevel::Warning;
+                    state_ = CpState::Warning;
                 }
 
                 if (do_reset_flank) do_descalate = true;
@@ -250,27 +238,27 @@ class ComponentProtection {
         
         bool do_descalate = false;
 
-        switch (level_)
+        switch (state_)
         {                       
-            case CpLevel::InactiveWarning2:
+            case CpState::InactiveWarning2:
 
                 // cp gets enabled
-                if (do_enable) level_ = CpLevel::Warning2;
+                if (do_enable) state_ = CpState::Warning2;
 
                 // warning monitor gets inactive
                 if (IsInactive(warning2_monitor_)) do_descalate = true;
                 
                 break;
 
-            case CpLevel::Warning2:
+            case CpState::Warning2:
 
-                if (IsInactive(warning2_monitor_)) level_ = CpLevel::Warning2Latched;
+                if (IsInactive(warning2_monitor_)) state_ = CpState::Warning2Latched;
                 break; 
 
-            case CpLevel::Warning2Latched:
+            case CpState::Warning2Latched:
 
                 if (IsActive(warning2_monitor_)) {
-                    level_ = CpLevel::Warning;
+                    state_ = CpState::Warning;
                 }
 
                 if (do_reset_flank) do_descalate = true;
@@ -304,41 +292,41 @@ class ComponentProtection {
 
     void EntryOk(bool do_enable) {
         if (do_enable) {
-            level_ = CpLevel::Ok;
+            state_ = CpState::Ok;
         } else {
-            level_ = CpLevel::InactiveOk;
+            state_ = CpState::InactiveOk;
         }
     };
 
     void EntryCaution(bool do_enable) {
         if (do_enable) {
-            level_ = CpLevel::Caution;
+            state_ = CpState::Caution;
         } else {
-            level_ = CpLevel::InactiveCaution;
+            state_ = CpState::InactiveCaution;
         }
     };
 
     void EntryWarning(bool do_enable) {
         if (do_enable) {
-            level_ = CpLevel::Warning;
+            state_ = CpState::Warning;
         } else {
-            level_ = CpLevel::InactiveWarning;
+            state_ = CpState::InactiveWarning;
         }
     }
 
     void EntryWarning2(bool do_enable) {
         if (do_enable) {
-            level_ = CpLevel::Warning2;
+            state_ = CpState::Warning2;
         } else {
-            level_ = CpLevel::InactiveWarning2;
+            state_ = CpState::InactiveWarning2;
         }
     };
 
 
     // getters
     CpType GetType(void) { return type_; };
-    CpState GetState();
-    CpLevel GetLevel() { return level_;};
+    CpState GetState(){ return state_;};
+    
     // for testing purposes, could be moved to mock class for component protection
     CpParameter& GetParameter() { return parameter_; };    
     MonitorType& GetCautionMonitor() { return caution_monitor_; };
@@ -365,6 +353,11 @@ class ComponentProtection {
         }
         return true;
     };
+
+    CpState DetermineCpState() {
+
+        
+    }
 
     private:
 
